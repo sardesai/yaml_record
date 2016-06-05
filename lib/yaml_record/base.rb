@@ -265,7 +265,7 @@ module YamlRecord
     #
     def self.all
       raw_items = self.adapter.read(self.source) || []
-      raw_items.map { |item| self.new(item.merge(:persisted => true)) }
+      raw_items.map { |key, item| self.new(item.merge({:persisted => true, :id => key})) }
     end
 
     # Find last YamlRecord instance given a limit
