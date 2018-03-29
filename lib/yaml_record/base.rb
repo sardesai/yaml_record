@@ -111,7 +111,7 @@ module YamlRecord
     #   @post.persisted_attributes => { :id => "a1b2c3", :foo => "bar", :miso => "great" }
     #
     def persisted_attributes
-      self.attributes.slice(*self.class.properties).reject { |k, v| v.nil? }
+      self.attributes.slice(*self.class.properties)#.reject { |k, v| v.nil? }
     end
 
     # Returns true if YamlRecord instance hasn't persisted; false otherwise
@@ -265,7 +265,8 @@ module YamlRecord
     #
     def self.all
       raw_items = self.adapter.read(self.source) || []
-      raw_items.map { |key, item| self.new(item.merge({:persisted => true, :id => key})) }
+      tmp = raw_items.map { |key, item| self.new(item.merge({:id => key})) }
+      return tmp
     end
 
     # Find last YamlRecord instance given a limit

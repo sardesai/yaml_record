@@ -21,7 +21,7 @@ module YamlRecord
       #   @adapter.write("foo", [{...}, {...}]) => "<yaml data>"
       #
       def write(source, collection)
-        File.open(source, 'w') {|f| f.write(collection.to_yaml) }
+        File.open(source, 'w') {|f| f.write(collection.map { |u| [u[:id], u] }.to_h.to_yaml) }
       end
     end
   end
